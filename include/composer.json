@@ -1,6 +1,5 @@
 {
     "require": {
-        "peppeocchi/php-cron-scheduler": "^2.4",
         "jmathai/php-multi-curl": "dev-master"
     }
 }

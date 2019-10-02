@@ -1,0 +1,3 @@
+[submodule "include/vendor/jmathai/php-multi-curl"]
+	path = include/vendor/jmathai/php-multi-curl
+	url = ../../jmathai/php-multi-curl.git

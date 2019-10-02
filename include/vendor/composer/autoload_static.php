@@ -11,28 +11,12 @@ class ComposerStaticInit4ad5cb26e0e5f947c0135b144b7144ed
         array (
             'JMathai\\PhpMultiCurl\\' => 21,
         ),
-        'G' => 
-        array (
-            'GO\\' => 3,
-        ),
-        'C' => 
-        array (
-            'Cron\\' => 5,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'JMathai\\PhpMultiCurl\\' => 
         array (
             0 => __DIR__ . '/..' . '/jmathai/php-multi-curl/src',
-        ),
-        'GO\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/peppeocchi/php-cron-scheduler/src/GO',
-        ),
-        'Cron\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
         ),
     );
 

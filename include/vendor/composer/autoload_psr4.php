@@ -7,6 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'JMathai\\PhpMultiCurl\\' => array($vendorDir . '/jmathai/php-multi-curl/src'),
-    'GO\\' => array($vendorDir . '/peppeocchi/php-cron-scheduler/src/GO'),
-    'Cron\\' => array($vendorDir . '/mtdowling/cron-expression/src/Cron'),
 );
