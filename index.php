@@ -1,325 +1,226 @@
-<!DOCTYPE html>
-<html>
+<?php
+include __DIR__.'/include/be.php';
+
+
+
+// echo "<pre>"; var_dump($file); echo "</pre>";
+ ?>
+
+ <!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>CRUD Application using JavaScript</title>
-    <style>
-        table
-        {
-            width: 100%;
-            font: 17px Calibri;
-        }
-        table, th, td
-        {
-            border: solid 1px #DDD;
-            border-collapse: collapse;
-            padding: 2px 3px;
-            text-align: center;
-        }
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bootstrap CRUD Data Table for Database with Modal Form</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+<script type="text/javascript">
+$(document).ready(function(){
+	// Activate tooltip
+	$('[data-toggle="tooltip"]').tooltip();
 
-        input[type='button']
-        {
-            font: 15px Calibri;
-            cursor: pointer;
-            border: none;
-            color: #FFF;
-        }
-
-        input[type='text'], select
-        {
-            font: 17px Calibri;
-            text-align: center;
-            border: solid 1px #CCC;
-            width: auto;
-            padding: 2px 3px;
-        }
-    </style>
+	// Select/Deselect checkboxes
+	var checkbox = $('table tbody input[type="checkbox"]');
+	$("#selectAll").click(function(){
+		if(this.checked){
+			checkbox.each(function(){
+				this.checked = true;
+			});
+		} else{
+			checkbox.each(function(){
+				this.checked = false;
+			});
+		}
+	});
+	checkbox.click(function(){
+		if(!this.checked){
+			$("#selectAll").prop("checked", false);
+		}
+	});
+});
+</script>
 </head>
 <body>
-    <div id="container" style="width:700px;">
+    <div class="container">
+        <div class="table-wrapper">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-6">
+						<h2>Manage <b>URLs</b></h2>
+					</div>
+					<div class="col-sm-6">
+						<a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Employee</span></a>
+						<a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>
+					</div>
+                </div>
+            </div>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+						<th>
+							<span class="custom-checkbox">
+								<input type="checkbox" id="selectAll">
+								<label for="selectAll"></label>
+							</span>
+						</th>
+
+            <?php
+
+            foreach ($labels_full as $key => $value) {
+              echo "<th>".$value."</th>";
+            }
+
+
+            ?>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+
+
+
+              <?php foreach ($file_data as $key => $value):
+
+            echo '
+            <tr>
+						<td>
+							<span class="custom-checkbox">
+								<input type="checkbox" id="checkbox1" name="options[]" value="1">
+								<label for="checkbox1"></label>
+							</span>
+						</td> ';
+
+            echo "
+                        <td>$value->url</td>
+                        <td>$value->cron_time</td>
+						            <td>$value->temp</td>
+                        <td>
+                            <a href=\"#editEmployeeModal\" class=\"edit\" data-toggle=\"modal\"><i class=\"material-icons\" data-toggle=\"tooltip\" title=\"Edit\">&#xE254;</i></a>
+                            <a href=\"#deleteEmployeeModal\" class=\"delete\" data-toggle=\"modal\"><i class=\"material-icons\" data-toggle=\"tooltip\" title=\"Delete\">&#xE872;</i></a>
+                        </td>
+                        </tr>
+                        ";
+                      endforeach;
+                      ?>
+
+                </tbody>
+            </table>
+			<div class="clearfix">
+                <div class="hint-text">Showing  <b>25</b> entries</div>
+            </div>
+        </div>
     </div>
+	<!-- Edit Modal HTML -->
+	<div id="addEmployeeModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form>
+					<div class="modal-header">
+						<h4 class="modal-title">Add Employee</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label>Name</label>
+							<input type="text" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Email</label>
+							<input type="email" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Address</label>
+							<textarea class="form-control" required></textarea>
+						</div>
+						<div class="form-group">
+							<label>Phone</label>
+							<input type="text" class="form-control" required>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-success" value="Add">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Edit Modal HTML -->
+	<div id="editEmployeeModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form>
+					<div class="modal-header">
+						<h4 class="modal-title">Edit URL</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+
+              <?php foreach ($file_data as $key => $value)
+
+              echo "
+              <div class=\"form-group\">
+
+              <label>$labels_full[$key]</label>
+							<input type=\"text\" class=\"form-control\" required>
+						</div>
+
+              ";
+
+ ?>
+<!--
+							<label>Name</label>
+							<input type="text" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Email</label>
+							<input type="email" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>Address</label>
+							<textarea class="form-control" required></textarea>
+						</div>
+						<div class="form-group">
+							<label>Phone</label>
+							<input type="text" class="form-control" required>
+						</div> -->
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-info" value="Save">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Delete Modal HTML -->
+	<div id="deleteEmployeeModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form>
+					<div class="modal-header">
+						<h4 class="modal-title">Delete Employee</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p>Are you sure you want to delete these Records?</p>
+						<p class="text-warning"><small>This action cannot be undone.</small></p>
+					</div>
+					<div class="modal-footer">
+						<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+						<input type="submit" class="btn btn-danger" value="Delete">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
-
-<script>
-    var crudApp = new function () {
-
-      function loadFile(filePath) {
-        var result = null;
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("GET", filePath, false);
-        xmlhttp.send();
-        if (xmlhttp.status==200) {
-          result = xmlhttp.responseText;
-        }
-        return result;
-      }
-
-      dataFile = loadFile('include/files/cron.json');
-      var myArr = JSON.parse(dataFile);
-      console.log(dataFile[0]);
-      console.log(myArr);
-
-
-      this.myBooks = myArr;
-
-      console.log(this.myBooks);
-
-
-        // // AN ARRAY OF JSON OBJECTS WITH VALUES.
-        // this.myBooks = [
-        //     { ID: '1', Book_Name: 'Computer Architecture', Category: 'Computers', Price: 125.60 },
-        //     { ID: '2', Book_Name: 'Asp.Net 4 Blue Book', Category: 'Programming', Price: 56.00 },
-        //     { ID: '3', Book_Name: 'Popular Science', Category: 'Science', Price: 210.40 }
-        // ]
-
-        this.category = ['Business', 'Computers', 'Programming', 'Science'];
-        this.col = [];
-
-        this.createTable = function () {
-
-            // EXTRACT VALUE FOR TABLE HEADER.
-            for (var i = 0; i < this.myBooks.length; i++) {
-                for (var key in this.myBooks[i]) {
-                    if (this.col.indexOf(key) === -1) {
-                        this.col.push(key);
-                    }
-                }
-            }
-
-            // CREATE A TABLE.
-            var table = document.createElement('table');
-            table.setAttribute('id', 'booksTable');     // SET TABLE ID.
-
-            var tr = table.insertRow(-1);               // CREATE A ROW (FOR HEADER).
-
-            for (var h = 0; h < this.col.length; h++) {
-                // ADD TABLE HEADER.
-                var th = document.createElement('th');
-                th.innerHTML = this.col[h].replace('_', ' ');
-                tr.appendChild(th);
-            }
-
-            // ADD ROWS USING JSON DATA.
-            for (var i = 0; i < this.myBooks.length; i++) {
-
-                tr = table.insertRow(-1);           // CREATE A NEW ROW.
-
-                for (var j = 0; j < this.col.length; j++) {
-                    var tabCell = tr.insertCell(-1);
-                    tabCell.innerHTML = this.myBooks[i][this.col[j]];
-                }
-
-                // DYNAMICALLY CREATE AND ADD ELEMENTS TO TABLE CELLS WITH EVENTS.
-
-                this.td = document.createElement('td');
-
-                // *** CANCEL OPTION.
-                tr.appendChild(this.td);
-                var lblCancel = document.createElement('label');
-                lblCancel.innerHTML = '✖';
-                lblCancel.setAttribute('onclick', 'crudApp.Cancel(this)');
-                lblCancel.setAttribute('style', 'display:none;');
-                lblCancel.setAttribute('title', 'Cancel');
-                lblCancel.setAttribute('id', 'lbl' + i);
-                this.td.appendChild(lblCancel);
-
-                // *** SAVE.
-                tr.appendChild(this.td);
-                var btSave = document.createElement('input');
-
-                btSave.setAttribute('type', 'button');      // SET ATTRIBUTES.
-                btSave.setAttribute('value', 'Save');
-                btSave.setAttribute('id', 'Save' + i);
-                btSave.setAttribute('style', 'display:none;');
-                btSave.setAttribute('onclick', 'crudApp.Save(this)');       // ADD THE BUTTON's 'onclick' EVENT.
-                this.td.appendChild(btSave);
-
-                // *** UPDATE.
-                tr.appendChild(this.td);
-                var btUpdate = document.createElement('input');
-
-                btUpdate.setAttribute('type', 'button');    // SET ATTRIBUTES.
-                btUpdate.setAttribute('value', 'Update');
-                btUpdate.setAttribute('id', 'Edit' + i);
-                btUpdate.setAttribute('style', 'background-color:#44CCEB;');
-                btUpdate.setAttribute('onclick', 'crudApp.Update(this)');   // ADD THE BUTTON's 'onclick' EVENT.
-                this.td.appendChild(btUpdate);
-
-                // *** DELETE.
-                this.td = document.createElement('th');
-                tr.appendChild(this.td);
-                var btDelete = document.createElement('input');
-                btDelete.setAttribute('type', 'button');    // SET INPUT ATTRIBUTE.
-                btDelete.setAttribute('value', 'Delete');
-                btDelete.setAttribute('style', 'background-color:#ED5650;');
-                btDelete.setAttribute('onclick', 'crudApp.Delete(this)');   // ADD THE BUTTON's 'onclick' EVENT.
-                this.td.appendChild(btDelete);
-            }
-
-
-            // ADD A ROW AT THE END WITH BLANK TEXTBOXES AND A DROPDOWN LIST (FOR NEW ENTRY).
-
-            tr = table.insertRow(-1);           // CREATE THE LAST ROW.
-
-            for (var j = 0; j < this.col.length; j++) {
-                var newCell = tr.insertCell(-1);
-                if (j >= 1) {
-
-                    if (j == 2) {   // WE'LL ADD A DROPDOWN LIST AT THE SECOND COLUMN (FOR Category).
-
-                        var select = document.createElement('select');      // CREATE AND ADD A DROPDOWN LIST.
-                        select.innerHTML = '<option value=""></option>';
-                        for (k = 0; k < this.category.length; k++) {
-                            select.innerHTML = select.innerHTML +
-                                '<option value="' + this.category[k] + '">' + this.category[k] + '</option>';
-                        }
-                        newCell.appendChild(select);
-                    }
-                    else {
-                        var tBox = document.createElement('input');          // CREATE AND ADD A TEXTBOX.
-                        tBox.setAttribute('type', 'text');
-                        tBox.setAttribute('value', '');
-                        newCell.appendChild(tBox);
-                    }
-                }
-            }
-
-            this.td = document.createElement('td');
-            tr.appendChild(this.td);
-
-            var btNew = document.createElement('input');
-
-            btNew.setAttribute('type', 'button');       // SET ATTRIBUTES.
-            btNew.setAttribute('value', 'Create');
-            btNew.setAttribute('id', 'New' + i);
-            btNew.setAttribute('style', 'background-color:#207DD1;');
-            btNew.setAttribute('onclick', 'crudApp.CreateNew(this)');       // ADD THE BUTTON's 'onclick' EVENT.
-            this.td.appendChild(btNew);
-
-            var div = document.getElementById('container');
-            div.innerHTML = '';
-            div.appendChild(table);    // ADD THE TABLE TO THE WEB PAGE.
-        };
-
-        // ****** OPERATIONS START.
-
-        // CANCEL.
-        this.Cancel = function (oButton) {
-
-            // HIDE THIS BUTTON.
-            oButton.setAttribute('style', 'display:none; float:none;');
-
-            var activeRow = oButton.parentNode.parentNode.rowIndex;
-
-            // HIDE THE SAVE BUTTON.
-            var btSave = document.getElementById('Save' + (activeRow - 1));
-            btSave.setAttribute('style', 'display:none;');
-
-            // SHOW THE UPDATE BUTTON AGAIN.
-            var btUpdate = document.getElementById('Edit' + (activeRow - 1));
-            btUpdate.setAttribute('style', 'display:block; margin:0 auto; background-color:#44CCEB;');
-
-            var tab = document.getElementById('booksTable').rows[activeRow];
-
-            for (i = 0; i < this.col.length; i++) {
-                var td = tab.getElementsByTagName("td")[i];
-                td.innerHTML = this.myBooks[(activeRow - 1)][this.col[i]];
-            }
-        }
-
-
-        // EDIT DATA.
-        this.Update = function (oButton) {
-            var activeRow = oButton.parentNode.parentNode.rowIndex;
-            var tab = document.getElementById('booksTable').rows[activeRow];
-
-            // SHOW A DROPDOWN LIST WITH A LIST OF CATEGORIES.
-            for (i = 1; i < 4; i++) {
-                if (i == 2) {
-                    var td = tab.getElementsByTagName("td")[i];
-                    var ele = document.createElement('select');      // DROPDOWN LIST.
-                    ele.innerHTML = '<option value="' + td.innerText + '">' + td.innerText + '</option>';
-                    for (k = 0; k < this.category.length; k++) {
-                        ele.innerHTML = ele.innerHTML +
-                            '<option value="' + this.category[k] + '">' + this.category[k] + '</option>';
-                    }
-                    td.innerText = '';
-                    td.appendChild(ele);
-                }
-                else {
-                    var td = tab.getElementsByTagName("td")[i];
-                    var ele = document.createElement('input');      // TEXTBOX.
-                    ele.setAttribute('type', 'text');
-                    ele.setAttribute('value', td.innerText);
-                    td.innerText = '';
-                    td.appendChild(ele);
-                }
-            }
-
-            var lblCancel = document.getElementById('lbl' + (activeRow - 1));
-            lblCancel.setAttribute('style', 'cursor:pointer; display:block; width:20px; float:left; position: absolute;');
-
-            var btSave = document.getElementById('Save' + (activeRow - 1));
-            btSave.setAttribute('style', 'display:block; margin-left:30px; float:left; background-color:#2DBF64;');
-
-            // HIDE THIS BUTTON.
-            oButton.setAttribute('style', 'display:none;');
-        };
-
-
-        // DELETE DATA.
-        this.Delete = function (oButton) {
-            var activeRow = oButton.parentNode.parentNode.rowIndex;
-            this.myBooks.splice((activeRow - 1), 1);    // DELETE THE ACTIVE ROW.
-            this.createTable();                         // REFRESH THE TABLE.
-        };
-
-        // SAVE DATA.
-        this.Save = function (oButton) {
-            var activeRow = oButton.parentNode.parentNode.rowIndex;
-            var tab = document.getElementById('booksTable').rows[activeRow];
-
-            // UPDATE myBooks ARRAY WITH VALUES.
-            for (i = 1; i < this.col.length; i++) {
-                var td = tab.getElementsByTagName("td")[i];
-                if (td.childNodes[0].getAttribute('type') == 'text' || td.childNodes[0].tagName == 'SELECT') {  // CHECK IF ELEMENT IS A TEXTBOX OR SELECT.
-                    this.myBooks[(activeRow - 1)][this.col[i]] = td.childNodes[0].value;      // SAVE THE VALUE.
-                }
-            }
-            this.createTable();     // REFRESH THE TABLE.
-        }
-
-        // CREATE NEW.
-        this.CreateNew = function (oButton) {
-            var activeRow = oButton.parentNode.parentNode.rowIndex;
-            var tab = document.getElementById('booksTable').rows[activeRow];
-            var obj = {};
-
-            // ADD NEW VALUE TO myBooks ARRAY.
-            for (i = 1; i < this.col.length; i++) {
-                var td = tab.getElementsByTagName("td")[i];
-                if (td.childNodes[0].getAttribute('type') == 'text' || td.childNodes[0].tagName == 'SELECT') {      // CHECK IF ELEMENT IS A TEXTBOX OR SELECT.
-                    var txtVal = td.childNodes[0].value;
-                    if (txtVal != '') {
-                        obj[this.col[i]] = txtVal.trim();
-                    }
-                    else {
-                        obj = '';
-                        alert('all fields are compulsory');
-                        break;
-                    }
-                }
-            }
-            obj[this.col[0]] = this.myBooks.length + 1;     // NEW ID.
-
-            if (Object.keys(obj).length > 0) {      // CHECK IF OBJECT IS NOT EMPTY.
-                this.myBooks.push(obj);             // PUSH (ADD) DATA TO THE JSON ARRAY.
-                this.createTable();                 // REFRESH THE TABLE.
-            }
-        }
-
-        // ****** OPERATIONS END.
-    }
-
-    crudApp.createTable();
-</script>
 </html>
